@@ -137,7 +137,11 @@ GameObject:
   - component: {fileID: 595963682}
   - component: {fileID: 595963686}
   m_Layer: 0
+<<<<<<< HEAD
   m_Name: Player
+=======
+  m_Name: Stalker
+>>>>>>> main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,6 +234,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 595963681}
   m_Enabled: 1
   m_EditorHideFlags: 0
+<<<<<<< HEAD
   m_Script: {fileID: 11500000, guid: 32674eb0a75054c4e8623719e908683e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
@@ -239,6 +244,16 @@ MonoBehaviour:
   _runSpeed: 0
   _panicLimit: 0
   _panicAttackDuration: 0
+=======
+  m_Script: {fileID: 11500000, guid: 7eb0a1619375a69498d4ac286297fa95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _name: Debbie
+  _damage: 3
+  _health: 15
+  _speed: 2
+  _panicRadius: 4
+>>>>>>> main
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,6 +432,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+<<<<<<< HEAD
 --- !u!1 &1912790505
 GameObject:
   m_ObjectHideFlags: 0
@@ -533,3 +549,5 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+=======
+>>>>>>> main
