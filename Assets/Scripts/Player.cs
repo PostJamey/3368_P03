@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-<<<<<<< HEAD
     [Header("General Stats")]
     [SerializeField]
     private int _health;
@@ -20,17 +19,4 @@ public class Player : MonoBehaviour
     [SerializeField][Tooltip("The set amount of time the player experiences a panic attack ")]
     private int _panicAttackDuration;
 
-=======
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
->>>>>>> main
 }
