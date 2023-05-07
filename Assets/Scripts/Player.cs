@@ -87,6 +87,8 @@ public class Player : MonoBehaviour
         _maxStamina = _currentStamina;
         staminaBar.maxValue = _maxStamina;
         _currentSpeed = _normalSpeed;
+        _currentRecharge = _normalRecharge;
+
 
     }
 
