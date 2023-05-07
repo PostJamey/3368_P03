@@ -8,6 +8,8 @@ public class Player : MonoBehaviour
     //Stamina specifics
     public Slider staminaBar;
     public float dValue;
+    private float _currentRecharge;
+    private float _currentSpeed;
 
     [Header("General Stats")]
     [SerializeField]
@@ -24,6 +26,12 @@ public class Player : MonoBehaviour
     private float _normalSpeed;
     [SerializeField]
     private float _fastSpeed;
+    [SerializeField]
+    private float _normalRecharge;
+    [SerializeField]
+    private float _slowRecharge;
+    [SerializeField]
+    private float _speedRestoreThresh;
     [SerializeField]
     [Tooltip("The set amount of panic the player can endure before experiencing" +
                         "into a panic attack")]
@@ -103,16 +111,29 @@ public class Player : MonoBehaviour
             _currentStamina -= dValue * Time.deltaTime;
         
             
-        if (_currentStamina <= -1)
+        if (_currentStamina <= 0)
+        {
+            _currentRecharge = _slowRecharge;
+            _currentSpeed = _slowSpeed;
             _currentStamina = 0;
+        }
     }
 
-    private void IncreaseEnergy()
+    private void IncreaseEnergy( float rechargeScale )
     {
-        _currentStamina += dValue * Time.deltaTime;
+        _currentStamina += dValue * rechargeScale * Time.deltaTime;
         if (_currentStamina >= _maxStamina)
+        {
             _currentStamina = _maxStamina;
+            _currentRecharge = _normalRecharge;
+            _currentSpeed = _normalSpeed;
+        } 
+        else if (_currentStamina >= _speedRestoreThresh * _maxStamina)
+        {
+            _currentSpeed = _normalSpeed;
+        }
     }
+
 
     private void Start()
     {
@@ -120,19 +141,33 @@ public class Player : MonoBehaviour
 
         _maxStamina = _currentStamina;
         staminaBar.maxValue = _maxStamina;
+        _currentSpeed = _normalSpeed;
+
     }
 
     private void Update()
     {
         //Movement code
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-        _characterController.Move(move * Time.deltaTime * _normalSpeed);
+       // _characterController.Move(move * Time.deltaTime * _normalSpeed);
 
         //Stamina code
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && _currentRecharge != _slowRecharge )
+        {
+
+            _characterController.Move(move * Time.deltaTime * _fastSpeed);
             DecreaseEnergy();
-        else if (_currentStamina != _maxStamina)
-            IncreaseEnergy();
+        }
+        else 
+        {
+            _characterController.Move(move * Time.deltaTime * _currentSpeed);
+            if ( _currentStamina != _maxStamina )
+            {
+                IncreaseEnergy( _currentRecharge );
+            }
+        }
+        //else _characterController.Move(move * Time.deltaTime * _slowSpeed);
+       // IncreaseEnergy();
 
         staminaBar.value = _currentStamina;
     }
