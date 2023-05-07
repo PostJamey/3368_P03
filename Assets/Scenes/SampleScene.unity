@@ -577,13 +577,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32674eb0a75054c4e8623719e908683e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  staminaBar: {fileID: 200167418}
+  dValue: 4
   _currentHealth: 0
   _maxHealth: 0
-  _currentStamina: 0
-  _maxStamina: 0
-  _slowSpeed: 0
-  _normalSpeed: 1
-  _fastSpeed: 0
+  _currentStamina: 4
+  _maxStamina: 10
+  _slowSpeed: 5
+  _normalSpeed: 5
+  _fastSpeed: 20
   _panicLimit: 0
   _panicAttackDuration: 0
 --- !u!1 &558819518

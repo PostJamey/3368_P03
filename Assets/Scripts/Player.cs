@@ -1,43 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    //Stamina specifics
+    public Slider staminaBar;
+    public float dValue;
+
     [Header("General Stats")]
     [SerializeField]
-    private int _currentHealth;
+    private float _currentHealth;
     [SerializeField]
-    private int _maxHealth;
+    private float _maxHealth;
     [SerializeField]
-    private int _currentStamina;
+    private float _currentStamina;
     [SerializeField]
-    private int _maxStamina;
+    private float _maxStamina;
     [SerializeField]
-    private int _slowSpeed;
+    private float _slowSpeed;
     [SerializeField]
-    private int _normalSpeed;
+    private float _normalSpeed;
     [SerializeField]
-    private int _fastSpeed;
+    private float _fastSpeed;
     [SerializeField]
     [Tooltip("The set amount of panic the player can endure before experiencing" +
                         "into a panic attack")]
-    private int _panicLimit;
+    private float _panicLimit;
     [SerializeField]
     [Tooltip("The set amount of time the player experiences a panic attack ")]
-    private int _panicAttackDuration;
+    private float _panicAttackDuration;
 
 
     //allowing values to be changed in inspector
-    public int CurrentHealth => _currentHealth;
-    public int MaxHealth => _maxHealth;
-    public int CurrentStamina => _currentStamina;
-    public int MaxStamina => _maxStamina;
-    public int SlowSpeed => _slowSpeed;
-    public int NormalSpeed => _normalSpeed;
-    public int FastSpeed => _fastSpeed;
-    public int PanicLimit => _panicLimit;
-    public int PanicAttackDuration => _panicAttackDuration;
+    public float CurrentHealth => _currentHealth;
+    public float MaxHealth => _maxHealth;
+    public float CurrentStamina => _currentStamina;
+    public float MaxStamina => _maxStamina;
+    public float SlowSpeed => _slowSpeed;
+    public float NormalSpeed => _normalSpeed;
+    public float FastSpeed => _fastSpeed;
+    public float PanicLimit => _panicLimit;
+    public float PanicAttackDuration => _panicAttackDuration;
 
     public void TakeDamage(int amount)
     {
@@ -90,14 +95,45 @@ public class Player : MonoBehaviour
 
     private CharacterController _characterController;
 
+    //Stamina Stuff
+    private void DecreaseEnergy()
+    {
+        //_currentSpeed = _fastSpeed;
+        if (_currentStamina != 0)
+            _currentStamina -= dValue * Time.deltaTime;
+        
+            
+        if (_currentStamina <= -1)
+            _currentStamina = 0;
+    }
+
+    private void IncreaseEnergy()
+    {
+        _currentStamina += dValue * Time.deltaTime;
+        if (_currentStamina >= _maxStamina)
+            _currentStamina = _maxStamina;
+    }
+
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
+
+        _maxStamina = _currentStamina;
+        staminaBar.maxValue = _maxStamina;
     }
 
     private void Update()
     {
+        //Movement code
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
         _characterController.Move(move * Time.deltaTime * _normalSpeed);
+
+        //Stamina code
+        if (Input.GetKey(KeyCode.LeftShift))
+            DecreaseEnergy();
+        else if (_currentStamina != _maxStamina)
+            IncreaseEnergy();
+
+        staminaBar.value = _currentStamina;
     }
 }
