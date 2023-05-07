@@ -85,4 +85,19 @@ public class Player : MonoBehaviour
             _currentStamina = _maxStamina;
         }
     }
+
+    //Character Movement
+
+    private CharacterController _characterController;
+
+    private void Start()
+    {
+        _characterController = GetComponent<CharacterController>();
+    }
+
+    private void Update()
+    {
+        Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        _characterController.Move(move * Time.deltaTime * _normalSpeed);
+    }
 }
