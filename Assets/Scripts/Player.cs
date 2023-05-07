@@ -5,108 +5,53 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    //Stamina specifics
+    //stamina specifics
     public Slider staminaBar;
+    [Tooltip("The amount being subtracted from the stamina bar when sprinting.")]
     public float dValue;
     private float _currentRecharge;
     private float _currentSpeed;
 
-    [Header("General Stats")]
-    [SerializeField]
-    private float _currentHealth;
-    [SerializeField]
-    private float _maxHealth;
+    [Header("Stamina Stats")]
     [SerializeField]
     private float _currentStamina;
     [SerializeField]
     private float _maxStamina;
     [SerializeField]
+    [Tooltip("Speed the player goes after running out of stamina altogther.")]
     private float _slowSpeed;
     [SerializeField]
     private float _normalSpeed;
     [SerializeField]
     private float _fastSpeed;
     [SerializeField]
+    [Tooltip("Normal recharge rate - when the stamina bar hasn't run out.")]
     private float _normalRecharge;
     [SerializeField]
+    [Tooltip("Slow recharge rate - when the stamina bar has run out.")]
     private float _slowRecharge;
     [SerializeField]
+    [Tooltip("The threshhold when the recharge speed goes back to normal after the stamina bar has" +
+             "been completely emptied")]
     private float _speedRestoreThresh;
-    [SerializeField]
-    [Tooltip("The set amount of panic the player can endure before experiencing" +
-                        "into a panic attack")]
-    private float _panicLimit;
-    [SerializeField]
-    [Tooltip("The set amount of time the player experiences a panic attack ")]
-    private float _panicAttackDuration;
 
 
     //allowing values to be changed in inspector
-    public float CurrentHealth => _currentHealth;
-    public float MaxHealth => _maxHealth;
     public float CurrentStamina => _currentStamina;
     public float MaxStamina => _maxStamina;
     public float SlowSpeed => _slowSpeed;
     public float NormalSpeed => _normalSpeed;
     public float FastSpeed => _fastSpeed;
-    public float PanicLimit => _panicLimit;
-    public float PanicAttackDuration => _panicAttackDuration;
+    public float NormalRecharge => _normalRecharge;
+    public float SlowRecharge => _slowRecharge;
+    public float SpeedRestoreThresh => _speedRestoreThresh;
 
-    public void TakeDamage(int amount)
-    {
-        _currentHealth -= amount;
-
-        if (_currentHealth <= 0)
-        {
-            //player is dead
-            //developer can choose death animation, game over screen, etc.
-
-            //play game over screen
-        }
-    }
-
-    public void Heal(int amount)
-    {
-        _currentHealth += amount;
-        //I want health to restore over time, like stamina
-
-        if (_currentHealth > _maxHealth)
-        {
-            _currentHealth = _maxHealth;
-        }
-    }
-
-    public void StaminaOut(int amount)
-    {
-        _currentStamina -= amount;
-
-        if (_currentStamina <= 0)
-        {
-            //player speed has now changed to slowSpeed
-            //call upon "slowSpeed" function here
-        }
-    }
-
-    public void StaminaRestore(int amount)
-    {
-        _currentStamina += amount;
-        //i want stamina to recover over time; not sure how to do that
-            //but may just need to add restoring items
-
-        if (_currentStamina > _maxStamina)
-        {
-            _currentStamina = _maxStamina;
-        }
-    }
-
-    //Character Movement
-
+    //character movement
     private CharacterController _characterController;
 
-    //Stamina Stuff
+    //stamina stuff
     private void DecreaseEnergy()
     {
-        //_currentSpeed = _fastSpeed;
         if (_currentStamina != 0)
             _currentStamina -= dValue * Time.deltaTime;
         
@@ -147,11 +92,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        //Movement code
+        //movement code
         Vector3 move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-       // _characterController.Move(move * Time.deltaTime * _normalSpeed);
 
-        //Stamina code
+        //stamina code
         if (Input.GetKey(KeyCode.LeftShift) && _currentRecharge != _slowRecharge )
         {
 
@@ -166,8 +110,6 @@ public class Player : MonoBehaviour
                 IncreaseEnergy( _currentRecharge );
             }
         }
-        //else _characterController.Move(move * Time.deltaTime * _slowSpeed);
-       // IncreaseEnergy();
 
         staminaBar.value = _currentStamina;
     }
